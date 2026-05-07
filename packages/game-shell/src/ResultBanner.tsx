@@ -5,6 +5,8 @@ export type BannerTone = 'win' | 'loss' | 'info';
 interface ResultBannerProps {
   tone: BannerTone;
   children: ReactNode;
+  /** Render as a full-width, block-level element instead of an absolute-positioned overlay. */
+  inline?: boolean;
   className?: string;
 }
 
@@ -14,11 +16,18 @@ const toneStyles: Record<BannerTone, string> = {
   info: 'border-white/15 bg-white/5 text-slate-100',
 };
 
-export function ResultBanner({ tone, children, className = '' }: ResultBannerProps) {
+const overlayLayout =
+  'pointer-events-none absolute inset-x-0 top-3 z-20 mx-auto w-fit max-w-[90%] rounded-full border px-4 py-2 text-sm font-medium backdrop-blur animate-bannerIn';
+
+const inlineLayout =
+  'block w-full rounded-xl border px-4 py-3 text-center text-base font-semibold backdrop-blur animate-bannerIn';
+
+export function ResultBanner({ tone, children, inline = false, className = '' }: ResultBannerProps) {
   return (
     <div
       className={
-        'pointer-events-none absolute inset-x-0 top-3 z-20 mx-auto w-fit max-w-[90%] rounded-full border px-4 py-2 text-sm font-medium backdrop-blur animate-bannerIn ' +
+        (inline ? inlineLayout : overlayLayout) +
+        ' ' +
         toneStyles[tone] +
         ' ' +
         className

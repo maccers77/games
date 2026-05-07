@@ -94,10 +94,17 @@ const PIP_LAYOUTS: Record<number, Array<[number, number]>> = {
 const W = 250;
 const H = 350;
 const PAD = 14;
-const CONTENT_X = 56;
-const CONTENT_Y = 56;
+// Pip cluster bounding box. CONTENT_X/Y are the inset from the card edges;
+// keep these wide enough that the (now larger) pip glyphs don't crowd the
+// corner indices or the card border.
+const CONTENT_X = 78;
+const CONTENT_Y = 60;
 const CONTENT_W = W - CONTENT_X * 2;
 const CONTENT_H = H - CONTENT_Y * 2;
+const PIP_FONT_SIZE = 54;
+// Half the cap-height for the pip font, used as a baseline-adjustment so
+// pips appear vertically centred at their target y coordinate.
+const PIP_BASELINE_NUDGE = 18;
 
 export function Card(props: CardProps) {
   const { card, faceDown, className, ariaLabel } = props;
@@ -207,21 +214,34 @@ export function Card(props: CardProps) {
         strokeWidth={1.5}
       />
 
-      {/* Top-left corner index */}
-      <g fill={color} fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif">
-        <text x={20} y={42} fontSize={32} fontWeight={700} letterSpacing={-1}>
+      {/* Top-left corner index. Both rank and suit share the same x with
+          textAnchor="middle" so the suit sits horizontally centred under
+          the rank regardless of rank width (e.g. "10" vs "A"). */}
+      <g
+        fill={color}
+        fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+        textAnchor="middle"
+      >
+        <text x={32} y={42} fontSize={32} fontWeight={700} letterSpacing={-1}>
           {label}
         </text>
-        <text x={20} y={70} fontSize={24} fontFamily="serif">
+        <text x={32} y={70} fontSize={24} fontFamily="serif">
           {glyph}
         </text>
       </g>
-      {/* Bottom-right corner index (rotated) */}
-      <g fill={color} fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif" transform={`rotate(180 ${W - 20} ${H - 42})`}>
-        <text x={W - 20} y={H - 42} fontSize={32} fontWeight={700} letterSpacing={-1}>
+      {/* Bottom-right corner index: same content rotated 180° around the
+          card centre so it reads correctly when the card is flipped.
+          Mapping (x, y) -> (W - x, H - y) in card coordinates. */}
+      <g
+        fill={color}
+        fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+        textAnchor="middle"
+        transform={`translate(${W} ${H}) rotate(180)`}
+      >
+        <text x={32} y={42} fontSize={32} fontWeight={700} letterSpacing={-1}>
           {label}
         </text>
-        <text x={W - 20} y={H - 70} fontSize={24} fontFamily="serif">
+        <text x={32} y={70} fontSize={24} fontFamily="serif">
           {glyph}
         </text>
       </g>
@@ -270,9 +290,9 @@ export function Card(props: CardProps) {
             <text
               key={i}
               x={CONTENT_X + fx * CONTENT_W}
-              y={CONTENT_Y + fy * CONTENT_H + 12}
+              y={CONTENT_Y + fy * CONTENT_H + PIP_BASELINE_NUDGE}
               textAnchor="middle"
-              fontSize={36}
+              fontSize={PIP_FONT_SIZE}
             >
               {glyph}
             </text>

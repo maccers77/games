@@ -3,7 +3,6 @@ import { useHiLoGame } from './hooks/useHiLoGame';
 import { BetPanel } from './components/BetPanel';
 import { Stage } from './components/Stage';
 import { ChoiceButtons } from './components/ChoiceButtons';
-import { HiLoResult } from './components/HiLoResult';
 
 export default function App() {
   const game = useHiLoGame();
@@ -27,9 +26,7 @@ export default function App() {
         </SettingsPanel>
       }
       play={
-        <PlayArea
-          banner={<HiLoResult result={game.lastResult} currency={game.currency} />}
-        >
+        <PlayArea>
           <div className="flex h-full w-full flex-col items-stretch gap-4">
             <Stage
               currentCard={game.currentCard}

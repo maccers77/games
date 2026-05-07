@@ -1,6 +1,7 @@
 import { formatCurrency } from '@games/shell';
 import type { GamePhase } from '../types';
 import type { RoundResult } from '../hooks/useHiLoGame';
+import { HiLoResult } from './HiLoResult';
 
 interface BetPanelProps {
   phase: GamePhase;
@@ -87,19 +88,6 @@ export function BetPanel(props: BetPanelProps) {
   return (
     <div className="flex w-full flex-col gap-3">
       <div className="rounded-xl bg-bg-tile/60 p-3 ring-1 ring-white/5">
-        <div className="flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider text-slate-400">Stake</span>
-          <span className="font-mono text-sm text-slate-100">
-            {formatCurrency(stake, currency)}
-          </span>
-        </div>
-        <div className="mt-2 flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider text-slate-400">Picks</span>
-          <span className="font-mono text-sm text-slate-100">{picksWon}</span>
-        </div>
-      </div>
-
-      <div className="rounded-xl bg-bg-tile/60 p-3 ring-1 ring-white/5">
         {isFinished && lastResult ? (
           <FinishedSummary result={lastResult} currency={currency} />
         ) : (
@@ -135,7 +123,9 @@ export function BetPanel(props: BetPanelProps) {
             ? `Cash out ${formatCurrency(potentialPayout, currency)}`
             : 'Pick a side to cash out'}
         </button>
-      ) : isFinished ? null : (
+      ) : isFinished && lastResult ? (
+        <HiLoResult result={lastResult} currency={currency} inline />
+      ) : (
         <button
           type="button"
           onClick={onStart}
