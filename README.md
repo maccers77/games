@@ -102,6 +102,8 @@ The repo is wired up for **Cloudflare Pages** with auto-deploy on push to `main`
 
 Cloudflare assigns a `https://<project>.pages.dev` URL automatically. Subsequent pushes to `main` redeploy automatically; PRs get isolated preview deploys at unique URLs.
 
+[`wrangler.toml`](wrangler.toml) at the repo root declares `pages_build_output_dir = "./dist"` so Cloudflare's deploy step (`npx wrangler deploy`) recognises this as a static Pages project rather than trying to deploy a Worker out of the pnpm workspace root. If you rename the Cloudflare project, update `name` in `wrangler.toml` to match.
+
 The artifact in `dist/` is portable, so swapping to Vercel / Netlify / static S3 later is just a matter of pointing the host at the same build command and output directory.
 
 ## Adding a new game
