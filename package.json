@@ -1,0 +1,22 @@
+{
+  "name": "games",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Standalone gambling game prototypes, embeddable via iframe.",
+  "scripts": {
+    "dev": "pnpm --parallel --filter './apps/*' dev",
+    "dev:mines": "pnpm --filter @games/mines dev",
+    "dev:crash": "pnpm --filter @games/crash dev",
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm -r --filter './apps/*' build && node tools/assemble-dist.mjs",
+    "build:mines": "pnpm --filter @games/mines build",
+    "build:crash": "pnpm --filter @games/crash build",
+    "preview": "pnpx serve dist",
+    "preview:mines": "pnpm --filter @games/mines preview",
+    "preview:crash": "pnpm --filter @games/crash preview"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
