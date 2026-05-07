@@ -77,8 +77,8 @@ window.addEventListener('message', (event) => {
 ```ts
 interface GameResultEvent {
   type: 'game:result';
-  /** Identifies which game produced the result. Currently 'crash' or 'mines'. */
-  game: 'crash' | 'mines' | string;
+  /** Identifies which game produced the result. Currently 'crash', 'mines', or 'hilo'. */
+  game: 'crash' | 'mines' | 'hilo' | string;
   outcome: 'won' | 'lost';
   /** Stake the round was played with, in major units, matches the URL param. */
   stake: number;
@@ -106,6 +106,7 @@ The contract is uniform across games but `multiplier` means slightly different t
 | ----- | ---------------------------------------------------------- | -------------------------------------- |
 | Crash | The multiplier captured at the moment Cash out was tapped. | The crash point (where the round died). |
 | Mines | Multiplier corresponding to the number of safe tiles revealed at cash-out. | `0` — by definition the player walked away with nothing. |
+| Hi-Lo | Accumulated product of per-pick multipliers at the moment Cash out was tapped. | `0` — the wrong-side pick ends the round at zero. |
 
 In practice a parent that just cares about credit/debit can treat the contract uniformly: if `outcome === 'won'` credit `payout`; otherwise nothing changes (the stake was never actually moved by the iframe).
 
@@ -116,7 +117,7 @@ A drop-in TypeScript snippet you can paste into a host app:
 ```ts
 type GameResultEvent = {
   type: 'game:result';
-  game: 'crash' | 'mines';
+  game: 'crash' | 'mines' | 'hilo';
   outcome: 'won' | 'lost';
   stake: number;
   multiplier: number;
@@ -172,3 +173,4 @@ URLs to try:
 
 - `http://localhost:5174/?stake=25&currency=NGN` (Crash)
 - `http://localhost:5173/?stake=25&currency=NGN` (Mines)
+- `http://localhost:5175/?stake=25&currency=NGN` (Hi-Lo)

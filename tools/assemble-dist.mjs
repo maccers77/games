@@ -36,6 +36,12 @@ const apps = [
     title: 'Mines',
     blurb: '6x6 board with 6 hidden mines. Reveal safe tiles to grow your multiplier; cash out anytime.',
   },
+  {
+    slug: 'hilo',
+    source: 'apps/hilo/dist',
+    title: 'Hi-Lo',
+    blurb: 'Predict whether the next card is higher-or-same or lower-or-same. Cash out anytime; one wrong pick ends the round.',
+  },
 ];
 
 const DEFAULT_QS = '?stake=25&currency=NGN';

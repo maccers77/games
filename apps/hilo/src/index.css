@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-bg text-slate-100 font-display antialiased;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(94, 234, 212, 0.08), transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(250, 204, 21, 0.06), transparent 40%);
+  }
+}
+
+@layer components {
+  /* Card shadow + ring used by the programmatic SVG card. */
+  .hilo-card {
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Slide+fade keyframe used when the next card is dealt onto the stage. */
+  @keyframes hiloDealIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-24%) translateY(-6%) rotate(-6deg) scale(0.92);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) translateY(0) rotate(0) scale(1);
+    }
+  }
+
+  .hilo-deal-in {
+    animation: hiloDealIn 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  /* Used to fade the previous card into the discard slot. */
+  @keyframes hiloDiscard {
+    0% {
+      opacity: 0;
+      transform: translateX(-12%) scale(0.96);
+    }
+    100% {
+      opacity: 0.85;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  .hilo-discard {
+    animation: hiloDiscard 240ms ease-out both;
+  }
+}

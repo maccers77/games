@@ -7,13 +7,16 @@
     "dev": "pnpm --parallel --filter './apps/*' dev",
     "dev:mines": "pnpm --filter @games/mines dev",
     "dev:crash": "pnpm --filter @games/crash dev",
+    "dev:hilo": "pnpm --filter @games/hilo dev",
     "typecheck": "pnpm -r typecheck",
     "build": "pnpm -r --filter './apps/*' build && node tools/assemble-dist.mjs",
     "build:mines": "pnpm --filter @games/mines build",
     "build:crash": "pnpm --filter @games/crash build",
+    "build:hilo": "pnpm --filter @games/hilo build",
     "preview": "pnpx serve dist",
     "preview:mines": "pnpm --filter @games/mines preview",
-    "preview:crash": "pnpm --filter @games/crash preview"
+    "preview:crash": "pnpm --filter @games/crash preview",
+    "preview:hilo": "pnpm --filter @games/hilo preview"
   },
   "engines": {
     "node": ">=18.18.0"

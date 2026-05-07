@@ -10,6 +10,7 @@ A pnpm workspace of standalone gambling game prototypes. Each game lives under `
 apps/
   mines/        Classic Mines on a 6x6 grid (6 mines, single round)
   crash/        Classic crash game (Chicken Keke), single bet, single round
+  hilo/         Hi-Lo card game on one 52-card deck, single round
 packages/
   game-shell/   Shared header / settings / play-area shell, embed helpers, Tailwind preset
 tools/
@@ -25,15 +26,17 @@ tools/
 
 ```bash
 pnpm install
-pnpm dev              # both games in one command
+pnpm dev              # all games in one command
 pnpm dev:mines        # http://localhost:5173
 pnpm dev:crash        # http://localhost:5174
+pnpm dev:hilo         # http://localhost:5175
 ```
 
 For local development you can load the games directly in a browser tab:
 
-- `http://localhost:5174/?stake=25&currency=NGN`
-- `http://localhost:5173/?stake=25&currency=NGN`
+- `http://localhost:5174/?stake=25&currency=NGN` (Crash)
+- `http://localhost:5173/?stake=25&currency=NGN` (Mines)
+- `http://localhost:5175/?stake=25&currency=NGN` (Hi-Lo)
 
 If you load without `?stake`, the iframe falls back to `stake=10, currency=USD` and prints a `console.warn` — handy for iterating on the UI but not a valid production state.
 
@@ -43,21 +46,23 @@ If you load without `?stake`, the iframe falls back to `stake=10, currency=USD` 
 
 ```
 dist/
-  index.html        Launcher (links to /crash/ and /mines/)
+  index.html        Launcher (links to /crash/, /mines/, /hilo/)
   crash/            Built Chicken Keke app, asset URLs prefixed with /crash/
   mines/            Built Mines app, asset URLs prefixed with /mines/
+  hilo/             Built Hi-Lo app, asset URLs prefixed with /hilo/
 ```
 
 ```bash
 pnpm typecheck        # tsc -b across the workspace
-pnpm build            # builds both apps + assembles dist/
+pnpm build            # builds all apps + assembles dist/
 pnpm preview          # serve dist/ locally on http://localhost:3000
 
 pnpm build:mines      # build only Mines (apps/mines/dist)
 pnpm build:crash      # build only Crash (apps/crash/dist)
+pnpm build:hilo       # build only Hi-Lo (apps/hilo/dist)
 ```
 
-The per-app dev URLs stay at `/`, but production builds set Vite's `base` to `/crash/` and `/mines/` respectively so the assembled artifact is drop-in for any single-domain static host.
+The per-app dev URLs stay at `/`, but production builds set Vite's `base` to `/crash/`, `/mines/`, and `/hilo/` respectively so the assembled artifact is drop-in for any single-domain static host.
 
 ## Embedding a game
 
