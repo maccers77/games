@@ -1,5 +1,7 @@
 # Integrating a game iframe
 
+> **Live deployment**: `https://<cloudflare-pages-project>.pages.dev` — replace with the real URL once the Cloudflare Pages project is provisioned (see the "Deploying" section of the [README](README.md)).
+
 Each game in this repo is a standalone SPA designed to be embedded inside a parent prototype via an `<iframe>`. The integration contract is intentionally minimal:
 
 1. **Parent -> iframe**: stake (and optionally currency) passed via URL query params.
